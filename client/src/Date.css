@@ -1,0 +1,18 @@
+h1, h2 {
+    margin: 0;
+}
+
+.Date {
+    width: 426px;
+}
+
+#day {
+    font-size: 72px;
+}
+
+#date {
+    margin-top: -14px;
+    font-weight: lighter;
+    height: 38px;
+    font-size: 32px;
+}
