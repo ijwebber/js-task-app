@@ -7,3 +7,14 @@
   color: white;
   margin-top: 64px;
 }
+
+.List {
+  margin: auto;
+  margin-top: 30px;
+  background: rgba(255, 255, 255, .4);
+  border: 15px solid white;
+  border-radius: 15px;
+  
+  width: 560px;
+  height: 654px;
+}

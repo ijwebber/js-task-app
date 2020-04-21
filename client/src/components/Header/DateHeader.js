@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './DateHeader.css';
-import arrowR from './arrow-r.svg';
-import arrowL from './arrow-l.svg';
-import arrowHovR from './hov-arrow-r.svg';
-import arrowHovL from './hov-arrow-l.svg';
+import arrowR from '../../images/arrow-r.svg';
+import arrowL from '../../images/arrow-l.svg';
+import arrowHovR from '../../images/hov-arrow-r.svg';
+import arrowHovL from '../../images/hov-arrow-l.svg';
 import Day from './Day';
 
 export default class DateHeader extends Component {
@@ -36,9 +36,9 @@ export default class DateHeader extends Component {
     }
 
     getOrdinal(date) {
-        if (date % 10 == 1 && date != 11) return "ST";
-        else if (date % 10 == 2 && date != 12) return "ND";
-        else if (date % 10 == 3 && date != 13) return "RD";
+        if (date % 10 === 1 && date !== 11) return "ST";
+        else if (date % 10 === 2 && date !== 12) return "ND";
+        else if (date % 10 === 3 && date !== 13) return "RD";
         else return "TH";
     }
 
