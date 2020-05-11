@@ -1,0 +1,31 @@
+
+.Header {
+    position: relative;
+    text-align: center;
+    height: 100vh;
+}
+
+.headerBackground {
+    position: absolute;
+    text-align: center;
+    margin-left: 10vw;
+    height: 100vh;
+    width: 13vw;
+    background-color: #E83535;
+    z-index: 100;
+}
+
+.Day {
+    width: 33vw;
+    position: absolute;
+    z-index: 110;
+    margin-top: 5vh;
+}
+
+#title {
+    margin-top: 66vh;
+    width: 33vw;
+    position: absolute;
+    font-size: 10vw;
+    z-index: 110;
+}

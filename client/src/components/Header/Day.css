@@ -2,17 +2,14 @@ h1, h2 {
     margin: 0;
 }
 
-.Day {
-    width: 426px;
-}
-
 #day {
-    font-size: 72px;
+    font-size: 5vw;
 }
 
 #date {
-    margin-top: -14px;
+    font-size: 2vw;
+    margin-top: -1.5vw;
     font-weight: lighter;
-    height: 38px;
-    font-size: 32px;
+    height: 37px;
 }
+
