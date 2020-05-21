@@ -33,7 +33,7 @@ export default class Day extends Component {
     render() {
         return (
             <div className="Day">
-                <h1 id="day">{"Wednesday"}</h1>
+                <h1 id="day">{this.state.day}</h1>
                 <h2 id="date">{this.state.longDate}</h2>
             </div>
         );
