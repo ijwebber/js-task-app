@@ -1,4 +1,17 @@
-.TodoBoard {
-    width: 60vw;
+.TodoBoard{
+    height: 90vh;
+}
+
+.board {
+    width: 50vw;
     height: 80vh;
+    background-color: white;
+    margin-top: -85vh;
+}
+
+.boardBack {
+    width: 14vw;
+    height: 90vh;
+    background-color: #E83535;
+    margin-left: 43vw;
 }

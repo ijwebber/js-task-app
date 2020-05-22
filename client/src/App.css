@@ -1,8 +1,15 @@
 .App {
   margin: auto;
-  text-align: center;
 }
 
 .Header {
   color: white;
+  display: inline-block;
+  width: 33vw;
+  vertical-align: middle;
+}
+
+.TodoBoard {
+  display: inline-block;
+  vertical-align: middle;
 }
