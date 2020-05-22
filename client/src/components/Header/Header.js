@@ -10,7 +10,7 @@ export default class Header extends Component {
                 <div className="headerBackground"></div>
 
                 <Day />
-                <Title />
+                <Title text={this.props.name} />
 
             </div>
         );
