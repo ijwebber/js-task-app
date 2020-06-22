@@ -17,18 +17,3 @@
     margin-left: 43vw;
 }
 
-#addBar {
-    margin-top: 32px;
-    margin-right: 32px;
-    margin-left: 32px;
-    width: unset;
-    height: 25px;
-}
-
-#addButton:hover #Line_4, #addButton:hover #Line_5 {
-    stroke: grey;
-}
-
-#addButton:hover {
-    cursor: pointer;
-}
