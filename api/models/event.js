@@ -8,9 +8,12 @@ const eventSchema = new mongoose.Schema({
   date: {
     type: Date,
     required: true,
-    default: Date.now + 1,
+    default: Date.now,
   },
-  time: {},
+  time: {
+    type: { Number, Number },
+    required: false,
+  },
 });
 
-module.exports = mongoose.model("Todo", todoSchema);
+module.exports = mongoose.model("Event", eventSchema);
