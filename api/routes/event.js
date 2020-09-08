@@ -48,7 +48,7 @@ router.patch("/:id", getEvent, async (req, res) => {
   }
 });
 
-// Deleteing a event
+// Deleting a event
 router.delete("/:id", getEvent, async (req, res) => {
   try {
     await res.event.remove();
