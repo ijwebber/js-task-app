@@ -12,7 +12,14 @@ export default function Content() {
 }
 
 class Board extends Component {
-  state = { tasks: getTasks() };
+  constructor() {
+    super();
+    this.state = {
+      tasks: [],
+    };
+    getTasks().then((tasks) => this.setState({ tasks: tasks }));
+  }
+
   render() {
     return (
       <div className="board">
@@ -38,18 +45,14 @@ function TaskList(props) {
   console.log(props.tasks);
   const mappedTasks = props.tasks.map((task) => <Task task={task} />);
 
-  return (
-    <div className="task-list">
-      <Task />
-    </div>
-  );
+  return <div className="task-list">{mappedTasks}</div>;
 }
 
-function Task() {
+function Task(props) {
   return (
     <div className="task">
       <input type="checkbox" className="task-check" />
-      Go Shopping
+      {props.task.todo}
     </div>
   );
 }
