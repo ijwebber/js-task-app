@@ -5,26 +5,48 @@ export default function Header(props) {
   return (
     <div className="header">
       <div className="line"></div>
-      <Date />
+      <Day />
       <Title text={props.title} />
     </div>
   );
 }
 
-class Date extends Component {
-  day() {
-    var today = new Date();
-
-    console.log("boom" + today.getDate());
+class Day extends Component {
+  getDayString() {
+    var dayIndex = new Date().getUTCDay();
+    return [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ][dayIndex];
   }
 
-  getDate() {}
+  getDateString() {
+    var date = new Date();
+
+    var day = date.getDate();
+    if (date.getDate() < 10) {
+      day = "0" + day.toString();
+    }
+
+    var month = date.getMonth() + 1;
+    if (date.getMonth() < 10) {
+      month = "0" + month.toString();
+    }
+
+    var year = date.getYear() - 100;
+    return day + " " + month + " " + year;
+  }
 
   render() {
     return (
       <div className="date">
-        <h1 className="day">{this.day()}</h1>
-        <h2 className="long">16 09 20</h2>
+        <h1 className="day">{this.getDayString()}</h1>
+        <h2 className="long">{this.getDateString()}</h2>
       </div>
     );
   }
