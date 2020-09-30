@@ -39,7 +39,7 @@ class Board extends Component {
 
   onAddSubmit(event) {
     event.preventDefault();
-    if (this.state.add_text != "") {
+    if (this.state.add_text !== "") {
       addTask(this.state.add_text).then((res) =>
         this.setState((state) => ({
           tasks: [...state.tasks, res],
