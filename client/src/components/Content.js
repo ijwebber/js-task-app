@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { addTask, getTasks } from "../util/task";
+import { addTask, deleteTask, getTasks } from "../util/task";
 import trashIcon from "../assets/trash.svg";
 import pencilIcon from "../assets/pencil.svg";
 import "./Content.css";
@@ -23,6 +23,13 @@ class Board extends Component {
 
     this.onAddTextChange = this.onAddTextChange.bind(this);
     this.onAddSubmit = this.onAddSubmit.bind(this);
+    this.onDeleteClick = this.onDeleteClick.bind(this);
+    this.updateTasks = this.updateTasks.bind(this);
+  }
+
+  updateTasks() {
+    console.log("test this big boy out");
+    getTasks().then((tasks) => this.setState({ tasks: tasks }));
   }
 
   onAddTextChange(e) {
@@ -40,8 +47,16 @@ class Board extends Component {
     );
   }
 
+  onDeleteClick(id) {
+    deleteTask(id).then((res) => {
+      if (res.status === 200) {
+        this.updateTasks();
+      }
+    });
+  }
+
   componentDidMount() {
-    getTasks().then((tasks) => this.setState({ tasks: tasks }));
+    this.updateTasks();
   }
 
   render() {
@@ -52,7 +67,7 @@ class Board extends Component {
           text={this.state.add_text}
           onSubmit={this.onAddSubmit}
         />
-        <TaskList tasks={this.state.tasks} />
+        <TaskList tasks={this.state.tasks} onDeleteClick={this.onDeleteClick} />
       </div>
     );
   }
@@ -75,13 +90,16 @@ function Add(props) {
 
 function TaskList(props) {
   const mappedTasks = props.tasks.map((task) => (
-    <Task key={task._id} task={task} />
+    <Task key={task._id} task={task} onDeleteClick={props.onDeleteClick} />
   ));
 
   return <div className="task-list">{mappedTasks}</div>;
 }
 
 function Task(props) {
+  function deleteClicked() {
+    return props.onDeleteClick(props.task._id);
+  }
   return (
     <div className="task">
       <input type="checkbox" className="task-check" />
@@ -95,7 +113,7 @@ function Task(props) {
             className="task-icon"
             alt="delete"
             src={trashIcon}
-            onClick={props.onDeleteClick}
+            onClick={deleteClicked}
           />
         </div>
       </div>

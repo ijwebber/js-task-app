@@ -21,8 +21,10 @@ export function addTask(task) {
 }
 
 export function deleteTask(id) {
-  axios
-    .delete("http://localhost:8000/" + id)
-    .then((res) => console.log(res))
+  return axios
+    .delete("http://localhost:8000/todo/" + id)
+    .then((res) => {
+      return res;
+    })
     .catch((err) => console.log(err));
 }
