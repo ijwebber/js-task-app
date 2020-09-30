@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { getTasks } from "../util/task";
+import { addTask, getTasks } from "../util/task";
+import trashIcon from "../assets/trash.svg";
+import pencilIcon from "../assets/pencil.svg";
 import "./Content.css";
 
 export default function Content() {
@@ -16,34 +18,65 @@ class Board extends Component {
     super();
     this.state = {
       tasks: [],
+      add_text: "",
     };
+
+    this.onAddTextChange = this.onAddTextChange.bind(this);
+    this.onAddSubmit = this.onAddSubmit.bind(this);
+  }
+
+  onAddTextChange(e) {
+    const value = e.target.value;
+    this.setState({ add_text: value });
+  }
+
+  onAddSubmit(event) {
+    event.preventDefault();
+    addTask(this.state.add_text).then((res) =>
+      this.setState((state) => ({
+        tasks: [...state.tasks, res],
+        add_text: "",
+      }))
+    );
+  }
+
+  componentDidMount() {
     getTasks().then((tasks) => this.setState({ tasks: tasks }));
   }
 
   render() {
     return (
       <div className="board">
-        <Add />
+        <Add
+          onChange={this.onAddTextChange}
+          text={this.state.add_text}
+          onSubmit={this.onAddSubmit}
+        />
         <TaskList tasks={this.state.tasks} />
       </div>
     );
   }
 }
 
-function Add() {
+function Add(props) {
   return (
-    <form className="add">
+    <form className="add" onSubmit={props.onSubmit}>
       <button type="submit" className="btn">
         ADD
       </button>
-      <input className="input"></input>
+      <input
+        className="input"
+        value={props.text}
+        onChange={props.onChange}
+      ></input>
     </form>
   );
 }
 
 function TaskList(props) {
-  console.log(props.tasks);
-  const mappedTasks = props.tasks.map((task) => <Task task={task} />);
+  const mappedTasks = props.tasks.map((task) => (
+    <Task key={task._id} task={task} />
+  ));
 
   return <div className="task-list">{mappedTasks}</div>;
 }
@@ -52,7 +85,20 @@ function Task(props) {
   return (
     <div className="task">
       <input type="checkbox" className="task-check" />
-      {props.task.todo}
+      <p className="task-text">{props.task.todo}</p>
+      <div className="task-btns">
+        <div className="task-icon-ctn mr02">
+          <img className="task-icon" alt="edit" src={pencilIcon} />
+        </div>
+        <div className="task-icon-ctn">
+          <img
+            className="task-icon"
+            alt="delete"
+            src={trashIcon}
+            onClick={props.onDeleteClick}
+          />
+        </div>
+      </div>
     </div>
   );
 }

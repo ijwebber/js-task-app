@@ -89,8 +89,39 @@
   font-size: 2vh;
 }
 
+.task .task-text {
+  display: inline-block;
+}
+
 .task .task-check {
+  display: inline-block;
   margin-right: 0.5vw;
+}
+
+.task .task-btns {
+  height: 5vh;
+  float: right;
+}
+
+.task .task-icon {
+  cursor: pointer;
+  padding: 1.1vh;
+  height: 5vh;
+}
+
+.task-icon-ctn {
+  border-radius: 100%;
+  display: inline-block;
+  height: 100%;
+  transition: background-color 0.2s;
+}
+
+.task-icon-ctn:hover {
+  background-color: #dddddd;
+}
+
+.task-icon-ctn:active {
+  background-color: #9c9c9c;
 }
 
 .input:focus {
