@@ -85,17 +85,22 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin-bottom: 2vh;
   padding: 0 1vw;
-  line-height: 5vh;
   font-size: 2vh;
 }
 
 .task .task-text {
   display: inline-block;
+  line-height: 5vh;
+  height: 5vh;
+  position: absolute;
+  padding: 0.1vh 0;
 }
 
-.task .task-check {
-  display: inline-block;
+.task .div-check {
   margin-right: 0.5vw;
+  position: relative;
+  height: 5vh;
+  display: inline-block;
 }
 
 .task .task-btns {
@@ -148,4 +153,56 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #8f8f8f;
+}
+
+/* Checkmark */
+.round {
+  display: inline-block;
+  width: 5vh;
+  height: 5vh;
+  position: relative;
+}
+
+.round .check-label {
+  background-image: linear-gradient(#e83535, #e83535);
+  background-repeat: no-repeat;
+  transition: background-size 0.2s, color 0.2s, border 0.2s;
+  background-size: 0 0;
+  background-position: 50% 50%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 3vh;
+  width: 3vh;
+  top: 1vh;
+  position: absolute;
+}
+
+.round .check-label:after {
+  border: 0.4vh solid #fff;
+  border-top: none;
+  border-right: none;
+  content: "";
+  height: 0.5vh;
+  left: 0.75vh;
+  top: 0.75vh;
+  opacity: 0;
+  position: absolute;
+  transform: rotate(-45deg);
+  width: 1vh;
+}
+
+.round .check-input {
+  visibility: hidden;
+  position: absolute;
+}
+
+.round .check-input:checked + .check-label {
+  background-size: 100% 100%;
+  border: 1px solid #e83535;
+}
+
+.round .check-input:checked + .check-label:after {
+  opacity: 1;
 }

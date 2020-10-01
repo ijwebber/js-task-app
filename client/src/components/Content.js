@@ -28,7 +28,6 @@ class Board extends Component {
   }
 
   updateTasks() {
-    console.log("test this big boy out");
     getTasks().then((tasks) => this.setState({ tasks: tasks }));
   }
 
@@ -102,9 +101,14 @@ function Task(props) {
   function deleteClicked() {
     return props.onDeleteClick(props.task._id);
   }
+
+  /*function statusChanged() {
+    return props.onStatusChange(props.task_id);
+  }*/
+
   return (
     <div className="task">
-      <input type="checkbox" className="task-check" />
+      <Checkmark checked={props.task.status} />
       <p className="task-text">{props.task.todo}</p>
       <div className="task-btns">
         <div className="task-icon-ctn mr02">
@@ -119,6 +123,20 @@ function Task(props) {
           />
         </div>
       </div>
+    </div>
+  );
+}
+
+function Checkmark(props) {
+  return (
+    <div class="round">
+      <input
+        className="check-input"
+        type="checkbox"
+        id="checkbox"
+        checked={props.checked}
+      />
+      <label className="check-label" for="checkbox"></label>
     </div>
   );
 }

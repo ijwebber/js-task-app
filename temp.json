@@ -1,0 +1,23 @@
+[
+  {
+    "status": false,
+    "_id": "5f75dd92c2c09404e908238e",
+    "todo": "Go Shopping",
+    "date": "2020-10-01T13:45:54.617Z",
+    "__v": 0
+  },
+  {
+    "status": false,
+    "_id": "5f75dd99c2c09404e908238f",
+    "todo": "Add another device",
+    "date": "2020-10-01T13:46:01.770Z",
+    "__v": 0
+  },
+  {
+    "status": false,
+    "_id": "5f75ee06c2c09404e908239b",
+    "todo": "Finish off the checkbox design",
+    "date": "2020-10-01T14:56:06.591Z",
+    "__v": 0
+  }
+]
