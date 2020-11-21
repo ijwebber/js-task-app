@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { addTask, deleteTask, getTasks } from "../util/task";
+import { addTask, deleteTask, getTasks, updateStatus } from "../util/task";
 import trashIcon from "../assets/trash.svg";
 import pencilIcon from "../assets/pencil.svg";
+import arrowIcon from "../assets/tri-arrow.svg";
 import "./Content.css";
 
 export default function Content() {
@@ -25,6 +26,7 @@ class Board extends Component {
     this.onAddSubmit = this.onAddSubmit.bind(this);
     this.onDeleteClick = this.onDeleteClick.bind(this);
     this.updateTasks = this.updateTasks.bind(this);
+    this.onStatusChange = this.onStatusChange.bind(this);
   }
 
   updateTasks() {
@@ -56,6 +58,14 @@ class Board extends Component {
     });
   }
 
+  onStatusChange(id, status) {
+    updateStatus(id, status).then((res) => {
+      if (res.status === 200) {
+        this.updateTasks();
+      }
+    });
+  }
+
   componentDidMount() {
     this.updateTasks();
   }
@@ -68,7 +78,11 @@ class Board extends Component {
           text={this.state.add_text}
           onSubmit={this.onAddSubmit}
         />
-        <TaskList tasks={this.state.tasks} onDeleteClick={this.onDeleteClick} />
+        <TaskList
+          tasks={this.state.tasks}
+          onDeleteClick={this.onDeleteClick}
+          onStatusChange={this.onStatusChange}
+        />
       </div>
     );
   }
@@ -89,12 +103,60 @@ function Add(props) {
   );
 }
 
+class CompletedTasks extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      active: true,
+    }
+
+    this.onArrowClick = this.onArrowClick.bind(this);
+  }
+
+  onArrowClick() {
+    console.log()
+    this.setState((state) => ({ active: !state.active }));
+  }
+
+  render() {
+
+    const arrowStyle = this.state.active ? { transform: "rotate(90deg)" } : { transform: "rotate(0deg)" };
+
+    return (<div className="CompletedTasks">
+      <img src={arrowIcon} alt="arrow" className="arrow" style={arrowStyle} onClick={this.onArrowClick} />
+      <span className="text">Completed Tasks</span>
+      <span className="text-delete">Delete All</span>
+
+      { this.state.active ? this.props.children : null}
+    </div>);
+  }
+}
+
 function TaskList(props) {
-  const mappedTasks = props.tasks.map((task) => (
-    <Task key={task._id} task={task} onDeleteClick={props.onDeleteClick} />
+
+  const completedTasks = props.tasks.filter((task) => task.status).map((task) => (
+    <Task
+      key={task._id}
+      task={task}
+      onDeleteClick={props.onDeleteClick}
+      onStatusChange={props.onStatusChange}
+    />
   ));
 
-  return <div className="task-list">{mappedTasks}</div>;
+  const incompletedTasks = props.tasks.filter((task) => !task.status).map((task) => (
+    <Task
+      key={task._id}
+      task={task}
+      onDeleteClick={props.onDeleteClick}
+      onStatusChange={props.onStatusChange}
+    />
+  ));
+
+  return <div className="task-list">
+    {incompletedTasks}
+    <CompletedTasks>{completedTasks}</CompletedTasks>
+
+  </div>;
 }
 
 function Task(props) {
@@ -102,13 +164,17 @@ function Task(props) {
     return props.onDeleteClick(props.task._id);
   }
 
-  /*function statusChanged() {
-    return props.onStatusChange(props.task_id);
-  }*/
+  function statusChanged() {
+    return props.onStatusChange(props.task._id, !props.task.status);
+  }
 
   return (
     <div className="task">
-      <Checkmark checked={props.task.status} />
+      <Checkmark
+        checked={props.task.status}
+        onChecked={statusChanged}
+        id={props.task._id}
+      />
       <p className="task-text">{props.task.todo}</p>
       <div className="task-btns">
         <div className="task-icon-ctn mr02">
@@ -129,14 +195,15 @@ function Task(props) {
 
 function Checkmark(props) {
   return (
-    <div class="round">
+    <div className="round">
       <input
         className="check-input"
         type="checkbox"
-        id="checkbox"
+        id={props.id}
         checked={props.checked}
+        onChange={props.onChecked}
       />
-      <label className="check-label" for="checkbox"></label>
+      <label className="check-label" htmlFor={props.id}></label>
     </div>
   );
 }

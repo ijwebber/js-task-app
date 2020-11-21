@@ -92,13 +92,13 @@
   display: inline-block;
   line-height: 5vh;
   height: 5vh;
-  position: absolute;
   padding: 0.1vh 0;
+  position: relative;
+  top: -2vh;
 }
 
 .task .div-check {
   margin-right: 0.5vw;
-  position: relative;
   height: 5vh;
   display: inline-block;
 }
@@ -121,16 +121,66 @@
   transition: background-color 0.2s;
 }
 
-.task-icon-ctn:hover {
+.task-icon-ctn {
+  transition: background-color 0.5s;
+}
+
+.task-icon-ctn:hover,
+.CompletedTasks .arrow:hover {
   background-color: #dddddd;
 }
 
-.task-icon-ctn:active {
+.task-icon-ctn:active,
+.CompletedTasks .arrow:active {
   background-color: #9c9c9c;
 }
 
 .input:focus {
   outline: none;
+}
+
+.CompletedTasks {
+  height: 5vh;
+  padding: 0 1vw;
+  margin-bottom: 10px;
+  font-size: 2vh;
+}
+
+.CompletedTasks .arrow {
+  border-radius: 50%;
+  padding: 0.2vh;
+  height: 3vh;
+  width: 3vh;
+  position: relative;
+  top: 1vh;
+  cursor: pointer;
+  transition: transform 0.5s ease-out, background-color 0.5s;
+  transform: rotate(90deg);
+  margin-right: 2vh;
+}
+
+.CompletedTasks .text {
+  display: inline-block;
+  line-height: 5vh;
+  height: 5vh;
+  position: relative;
+  top: 0.1vh;
+}
+
+.CompletedTasks .text-delete {
+  line-height: 5vh;
+  height: 5vh;
+  position: relative;
+  top: 0.2vh;
+  float: right;
+
+  cursor: pointer;
+
+  transition: color 0.5s;
+}
+
+.CompletedTasks .text-delete:hover {
+  color: #e83535;
 }
 
 /* Scrollbar */
