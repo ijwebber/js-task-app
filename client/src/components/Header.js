@@ -34,7 +34,7 @@ class Day extends Component {
     }
 
     var month = date.getMonth() + 1;
-    if (date.getMonth() < 10) {
+    if (date.getMonth() + 1 < 10) {
       month = "0" + month.toString();
     }
 
