@@ -28,3 +28,21 @@ export function deleteTask(id) {
     })
     .catch((err) => console.log(err));
 }
+
+export function deleteCompleted() {
+  return axios
+    .delete("http://localhost:8000/todo/")
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => console.log(err));
+}
+
+export function updateStatus(id, status) {
+  return axios
+    .patch("http://localhost:8000/todo/" + id, { status: status })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => console.log(err));
+}
