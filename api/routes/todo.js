@@ -4,7 +4,6 @@ const Todo = require("../models/todo");
 
 // Getting all todos
 router.get("/", async (req, res) => {
-  console.log("req.body.todo");
   try {
     const todos = await Todo.find();
     res.json(todos);
@@ -58,6 +57,15 @@ router.delete("/:id", getTodo, async (req, res) => {
   }
 });
 
+router.delete("/", getCompleted, async (req, res) => {
+  try {
+    res.completed.map((todo) => todo.remove());
+    res.json({ message: "Deleted Completed Todos" });
+  } catch (error) {
+    res.status(500).json({ message: error.stack });
+  }
+});
+
 async function getTodo(req, res, next) {
   let todo;
   try {
@@ -70,6 +78,19 @@ async function getTodo(req, res, next) {
   }
 
   res.todo = todo;
+  next();
+}
+
+async function getCompleted(req, res, next) {
+  let completed;
+  try {
+    let todos = await Todo.find();
+    completed = todos.filter((todo) => todo.status);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+
+  res.completed = completed;
   next();
 }
 
