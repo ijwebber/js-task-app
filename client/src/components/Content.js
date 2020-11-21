@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { addTask, deleteTask, getTasks, updateStatus } from "../util/task";
+import { addTask, deleteTask, getTasks, updateStatus, deleteCompleted } from "../util/task";
 import trashIcon from "../assets/trash.svg";
 import pencilIcon from "../assets/pencil.svg";
 import arrowIcon from "../assets/tri-arrow.svg";
@@ -25,6 +25,7 @@ class Board extends Component {
     this.onAddTextChange = this.onAddTextChange.bind(this);
     this.onAddSubmit = this.onAddSubmit.bind(this);
     this.onDeleteClick = this.onDeleteClick.bind(this);
+    this.onDeleteCompletedClick = this.onDeleteCompletedClick.bind(this);
     this.updateTasks = this.updateTasks.bind(this);
     this.onStatusChange = this.onStatusChange.bind(this);
   }
@@ -58,6 +59,14 @@ class Board extends Component {
     });
   }
 
+  onDeleteCompletedClick() {
+    deleteCompleted().then((res) => {
+      if (res.status === 200) {
+        this.updateTasks();
+      }
+    })
+  }
+
   onStatusChange(id, status) {
     updateStatus(id, status).then((res) => {
       if (res.status === 200) {
@@ -81,6 +90,7 @@ class Board extends Component {
         <TaskList
           tasks={this.state.tasks}
           onDeleteClick={this.onDeleteClick}
+          onDeleteCompletedClick={this.onDeleteCompletedClick}
           onStatusChange={this.onStatusChange}
         />
       </div>
@@ -107,7 +117,7 @@ class CompletedTasks extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      active: true,
+      active: false,
     }
 
     this.onArrowClick = this.onArrowClick.bind(this);
@@ -125,7 +135,7 @@ class CompletedTasks extends Component {
     return (<div className="CompletedTasks">
       <img src={arrowIcon} alt="arrow" className="arrow" style={arrowStyle} onClick={this.onArrowClick} />
       <span className="text">Completed Tasks</span>
-      <span className="text-delete">Delete All</span>
+      <span className="text-delete" onClick={this.props.onDeleteCompletedClick}>Delete All</span>
 
       { this.state.active ? this.props.children : null}
     </div>);
@@ -153,8 +163,8 @@ function TaskList(props) {
   ));
 
   return <div className="task-list">
-    {incompletedTasks}
-    <CompletedTasks>{completedTasks}</CompletedTasks>
+    {incompletedTasks.length > 0 ? incompletedTasks : <div className="done-text">You have completed all your tasks!<br /></div>}
+    <CompletedTasks onDeleteCompletedClick={props.onDeleteCompletedClick}>{completedTasks}</CompletedTasks>
 
   </div>;
 }

@@ -139,6 +139,13 @@
   outline: none;
 }
 
+.task-list .done-text {
+  font-size: 3vh;
+  width: 100%;
+  text-align: center;
+  padding: 2vh 0;
+}
+
 .CompletedTasks {
   height: 5vh;
   padding: 0 1vw;
