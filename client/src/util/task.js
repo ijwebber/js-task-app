@@ -46,3 +46,12 @@ export function updateStatus(id, status) {
     })
     .catch((err) => console.log(err));
 }
+
+export function updateText(id, text) {
+  return axios
+    .patch("http://localhost:8000/todo/" + id, { todo: text })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => console.log(err));
+}
