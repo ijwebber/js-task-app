@@ -44,16 +44,28 @@ class Board extends Component {
   onAddSubmit(event) {
     event.preventDefault();
     if (this.state.add_text !== "") {
+      let task = {
+        _id: '_' + Math.random().toString(36).substr(2, 9),
+        todo: this.state.add_text,
+        date: Date.now,
+        status: false,
+      }
+
+      this.setState((state) => ({
+        tasks: [...state.tasks, task],
+        add_text: "",
+      }))
+
       addTask(this.state.add_text).then((res) =>
-        this.setState((state) => ({
-          tasks: [...state.tasks, res],
-          add_text: "",
-        }))
+        this.updateTasks()
       );
     }
   }
 
   onDeleteClick(id) {
+    let tasks = this.state.tasks.filter((task) => task._id !== id);
+    this.setState({ tasks: tasks })
+
     deleteTask(id).then((res) => {
       if (res.status === 200) {
         this.updateTasks();
@@ -62,6 +74,9 @@ class Board extends Component {
   }
 
   onDeleteCompletedClick() {
+    let tasks = this.state.tasks.filter((task) => !task.status);
+    this.setState({ tasks: tasks })
+
     deleteCompleted().then((res) => {
       if (res.status === 200) {
         this.updateTasks();
@@ -78,11 +93,16 @@ class Board extends Component {
   }
 
   onStatusChange(id, status) {
-    updateStatus(id, status).then((res) => {
-      if (res.status === 200) {
-        this.updateTasks();
-      }
-    });
+    let index = this.state.tasks.findIndex(x => x._id === id);
+
+    let tasks = [...this.state.tasks];
+    let task = { ...tasks[index] };
+    let new_status = !task.status;
+    task.status = new_status;
+    tasks[index] = task;
+    this.setState({ tasks: tasks })
+
+    updateStatus(id, status);
   }
 
   componentDidMount() {
