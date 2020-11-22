@@ -85,16 +85,24 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin-bottom: 2vh;
   padding: 0 1vw;
-  font-size: 2vh;
 }
 
 .task .task-text {
+  font-size: 2vh;
   display: inline-block;
-  line-height: 5vh;
-  height: 5vh;
-  padding: 0.1vh 0;
   position: relative;
-  top: -2vh;
+  width: calc(53vw - 33vh);
+  top: -1vh;
+  height: 3vh;
+  line-height: 3vh;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.task .task-text:focus {
+  outline: #e83535;
+  border-bottom: 2px solid;
 }
 
 .task .div-check {

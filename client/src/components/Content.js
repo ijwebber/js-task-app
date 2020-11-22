@@ -143,7 +143,6 @@ class CompletedTasks extends Component {
 }
 
 function TaskList(props) {
-
   const completedTasks = props.tasks.filter((task) => task.status).map((task) => (
     <Task
       key={task._id}
@@ -185,7 +184,7 @@ function Task(props) {
         onChecked={statusChanged}
         id={props.task._id}
       />
-      <p className="task-text">{props.task.todo}</p>
+      <div className="task-text" contentEditable={true}>{props.task.todo}</div>
       <div className="task-btns">
         <div className="task-icon-ctn mr02">
           <img className="task-icon" alt="edit" src={pencilIcon} />
