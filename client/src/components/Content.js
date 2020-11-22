@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { addTask, deleteTask, getTasks, updateStatus, deleteCompleted } from "../util/task";
 import trashIcon from "../assets/trash.svg";
 import pencilIcon from "../assets/pencil.svg";
@@ -169,6 +169,8 @@ function TaskList(props) {
 }
 
 function Task(props) {
+  const [edit, setEdit] = useState(false);
+
   function deleteClicked() {
     return props.onDeleteClick(props.task._id);
   }
@@ -177,6 +179,8 @@ function Task(props) {
     return props.onStatusChange(props.task._id, !props.task.status);
   }
 
+  const taskEditStyle = edit ? { borderBottom: "1px solid" } : null;
+
   return (
     <div className="task">
       <Checkmark
@@ -184,10 +188,10 @@ function Task(props) {
         onChecked={statusChanged}
         id={props.task._id}
       />
-      <div className="task-text" contentEditable={true}>{props.task.todo}</div>
+      <div className="task-text" style={taskEditStyle} contentEditable={edit}>{props.task.todo}</div>
       <div className="task-btns">
         <div className="task-icon-ctn mr02">
-          <img className="task-icon" alt="edit" src={pencilIcon} />
+          <img className="task-icon" alt="edit" src={pencilIcon} onClick={() => setEdit(!edit)} />
         </div>
         <div className="task-icon-ctn">
           <img

@@ -101,8 +101,8 @@
 }
 
 .task .task-text:focus {
-  outline: #e83535;
-  border-bottom: 2px solid;
+  outline: none;
+  border-bottom: 2px solid !important;
 }
 
 .task .div-check {
