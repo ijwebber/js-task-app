@@ -1,8 +1,9 @@
 import React, { Component, useState } from "react";
-import { addTask, deleteTask, getTasks, updateStatus, deleteCompleted } from "../util/task";
+import { addTask, deleteTask, getTasks, updateStatus, deleteCompleted, updateText } from "../util/task";
 import trashIcon from "../assets/trash.svg";
 import pencilIcon from "../assets/pencil.svg";
 import arrowIcon from "../assets/tri-arrow.svg";
+import tickIcon from "../assets/tick.svg";
 import "./Content.css";
 
 export default function Content() {
@@ -28,6 +29,7 @@ class Board extends Component {
     this.onDeleteCompletedClick = this.onDeleteCompletedClick.bind(this);
     this.updateTasks = this.updateTasks.bind(this);
     this.onStatusChange = this.onStatusChange.bind(this);
+    this.onUpdateTextClick = this.onUpdateTextClick.bind(this);
   }
 
   updateTasks() {
@@ -67,6 +69,14 @@ class Board extends Component {
     })
   }
 
+  onUpdateTextClick(id, text) {
+    updateText(id, text).then((res) => {
+      if (res.status === 200) {
+        this.updateTasks();
+      }
+    });
+  }
+
   onStatusChange(id, status) {
     updateStatus(id, status).then((res) => {
       if (res.status === 200) {
@@ -92,6 +102,7 @@ class Board extends Component {
           onDeleteClick={this.onDeleteClick}
           onDeleteCompletedClick={this.onDeleteCompletedClick}
           onStatusChange={this.onStatusChange}
+          onUpdateTextClick={this.onUpdateTextClick}
         />
       </div>
     );
@@ -113,6 +124,34 @@ function Add(props) {
   );
 }
 
+function TaskList(props) {
+  const completedTasks = props.tasks.filter((task) => task.status).map((task) => (
+    <Task
+      key={task._id}
+      task={task}
+      onDeleteClick={props.onDeleteClick}
+      onStatusChange={props.onStatusChange}
+      onUpdateTextClick={props.onUpdateTextClick}
+    />
+  ));
+
+  const incompletedTasks = props.tasks.filter((task) => !task.status).map((task) => (
+    <Task
+      key={task._id}
+      task={task}
+      onDeleteClick={props.onDeleteClick}
+      onStatusChange={props.onStatusChange}
+      onUpdateTextClick={props.onUpdateTextClick}
+    />
+  ));
+
+  return <div className="task-list">
+    {incompletedTasks.length > 0 ? incompletedTasks : <div className="done-text">You have completed all your tasks!<br /></div>}
+    <CompletedTasks onDeleteCompletedClick={props.onDeleteCompletedClick}>{completedTasks}</CompletedTasks>
+
+  </div>;
+}
+
 class CompletedTasks extends Component {
   constructor(props) {
     super(props)
@@ -124,7 +163,6 @@ class CompletedTasks extends Component {
   }
 
   onArrowClick() {
-    console.log()
     this.setState((state) => ({ active: !state.active }));
   }
 
@@ -142,32 +180,6 @@ class CompletedTasks extends Component {
   }
 }
 
-function TaskList(props) {
-  const completedTasks = props.tasks.filter((task) => task.status).map((task) => (
-    <Task
-      key={task._id}
-      task={task}
-      onDeleteClick={props.onDeleteClick}
-      onStatusChange={props.onStatusChange}
-    />
-  ));
-
-  const incompletedTasks = props.tasks.filter((task) => !task.status).map((task) => (
-    <Task
-      key={task._id}
-      task={task}
-      onDeleteClick={props.onDeleteClick}
-      onStatusChange={props.onStatusChange}
-    />
-  ));
-
-  return <div className="task-list">
-    {incompletedTasks.length > 0 ? incompletedTasks : <div className="done-text">You have completed all your tasks!<br /></div>}
-    <CompletedTasks onDeleteCompletedClick={props.onDeleteCompletedClick}>{completedTasks}</CompletedTasks>
-
-  </div>;
-}
-
 function Task(props) {
   const [edit, setEdit] = useState(false);
 
@@ -179,7 +191,17 @@ function Task(props) {
     return props.onStatusChange(props.task._id, !props.task.status);
   }
 
-  const taskEditStyle = edit ? { borderBottom: "1px solid" } : null;
+  function editClicked() {
+    setEdit(!edit);
+    if (edit) {
+      const id = props.task._id;
+
+      props.onUpdateTextClick(id, document.getElementById("text-" + id).innerHTML)
+    }
+  }
+
+  const editStyle = edit ? { borderBottom: "1px solid" } : null;
+  const editIcon = edit ? tickIcon : pencilIcon;
 
   return (
     <div className="task">
@@ -188,10 +210,10 @@ function Task(props) {
         onChecked={statusChanged}
         id={props.task._id}
       />
-      <div className="task-text" style={taskEditStyle} contentEditable={edit}>{props.task.todo}</div>
+      <div id={"text-" + props.task._id} className="task-text" style={editStyle} contentEditable={edit}>{props.task.todo}</div>
       <div className="task-btns">
         <div className="task-icon-ctn mr02">
-          <img className="task-icon" alt="edit" src={pencilIcon} onClick={() => setEdit(!edit)} />
+          <img className="task-icon" alt="edit" src={editIcon} onClick={editClicked} />
         </div>
         <div className="task-icon-ctn">
           <img
