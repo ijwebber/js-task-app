@@ -1,5 +1,5 @@
 require("dotenv").config();
-
+const functions = require("firebase-functions");
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -14,14 +14,11 @@ db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected To Database"));
 
 app.use(
-  cors({
-    credentials: true,
-    origin: "http://localhost:3000",
-  })
+  cors()
 );
-
 app.use(express.json());
 
 const todoRouter = require("./routes/todo");
 app.use("/todo", todoRouter);
-app.listen(8000, () => console.log("Server has started!"));
+
+exports.api = functions.https.onRequest(app);

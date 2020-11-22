@@ -1,8 +1,12 @@
+import { api_url } from "./api";
+
 const axios = require("axios");
+
+const address = api_url();
 
 export function getTasks() {
   return axios
-    .get("http://localhost:8000/todo")
+    .get(address)
     .then(function (res) {
       return res.data;
     })
@@ -13,7 +17,7 @@ export function getTasks() {
 
 export function addTask(task) {
   return axios
-    .post("http://localhost:8000/todo", { todo: task })
+    .post(address, { todo: task })
     .then(function (res) {
       return res.data;
     })
@@ -22,7 +26,7 @@ export function addTask(task) {
 
 export function deleteTask(id) {
   return axios
-    .delete("http://localhost:8000/todo/" + id)
+    .delete(address + "/" + id)
     .then((res) => {
       return res;
     })
@@ -31,7 +35,7 @@ export function deleteTask(id) {
 
 export function deleteCompleted() {
   return axios
-    .delete("http://localhost:8000/todo/")
+    .delete(address + "/")
     .then((res) => {
       return res;
     })
@@ -40,7 +44,7 @@ export function deleteCompleted() {
 
 export function updateStatus(id, status) {
   return axios
-    .patch("http://localhost:8000/todo/" + id, { status: status })
+    .patch(address + "/" + id, { status: status })
     .then((res) => {
       return res;
     })
@@ -49,7 +53,7 @@ export function updateStatus(id, status) {
 
 export function updateText(id, text) {
   return axios
-    .patch("http://localhost:8000/todo/" + id, { todo: text })
+    .patch(address + "/" + id, { todo: text })
     .then((res) => {
       return res;
     })
